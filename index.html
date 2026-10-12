@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>netacocina - Aprende a cocinar sin miedo</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Enlace a la hoja de estilos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR FIJA -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="logo" onclick="app.navigateTo('home')">netacocina</div>
+                <div class="search-box">
+                    <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="searchInput" placeholder="Buscar cursos, recetas..." oninput="app.handleSearch(this.value)">
+                </div>
+            </div>
+            <nav class="nav-center" id="navCenter">
+                <a href="#" onclick="app.navigateTo('learning'); return false;" class="nav-link">Mi aprendizaje</a>
+                <a href="#" onclick="app.navigateTo('catalog'); return false;" class="nav-link">Cursos</a>
+            </nav>
+            <div class="nav-right">
+                <div class="lang-selector">ES</div>
+                <button class="icon-btn" aria-label="Ayuda" title="Ayuda" onclick="app.openHelpModal()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </button>
+                <div class="notif-wrapper">
+                    <button class="icon-btn" aria-label="Notificaciones" onclick="app.toggleNotifDropdown()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                        <span class="notif-dot"></span>
+                    </button>
+                    <div class="notif-dropdown" id="notifDropdown">
+                        <h4>Notificaciones</h4>
+                        <div id="notifList">
+                            <p>¡Bienvenido a netacocina! Explora nuestros cursos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="authButtonsContainer" class="auth-buttons">
+                    <button class="btn-text" onclick="app.openAuthModal('login')">Iniciar sesión</button>
+                    <button class="btn-primary" onclick="app.openAuthModal('register')">Regístrate</button>
+                </div>
+                <div id="userProfileMenu" class="user-profile-menu" style="display: none;">
+                    <div class="avatar" id="userAvatarText">U</div>
+                    <span id="userNameDisplay">Usuario</span>
+                    <button class="btn-secondary-sm" onclick="app.logout()">Cerrar sesión</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER PROMOCIONAL -->
+    <div class="promo-banner" id="promoBanner">
+        <div class="promo-content">
+            <span class="fire-icon">🔥</span>
+            <span><strong>¡Nuevo curso!</strong> Aprende la carne molida al estilo napolitano con secretos de chef.</span>
+            <button onclick="app.goToPromoCourse()">Ver curso</button>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE VISTAS -->
+    <main class="main-content">
+
+        <!-- VISTA: HOME / HERO -->
+        <section id="view-home" class="view active">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-text">
+                    <h1 class="hero-title">Aprende a cocinar. Cocina sin miedo.</h1>
+                    <p class="hero-desc">Domina técnicas culinarias profesionales, recetas tradicionales y descubre tu verdadera identidad en la cocina con cursos interactivos diseñados para ti.</p>
+                    <div class="hero-actions">
+                        <button class="btn-primary btn-lg" onclick="app.navigateTo('catalog')">Empezar a cocinar</button>
+                        <button class="btn-outline btn-lg" onclick="app.navigateTo('catalog')">Explorar cursos</button>
+                    </div>
+                </div>
+                <div class="hero-image-collage">
+                    <div class="collage-item img-1">
+                        <img src="https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80" alt="Cocina profesional">
+                    </div>
+                    <div class="collage-item img-2">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80" alt="Platillo delicioso">
+                    </div>
+                    <div class="collage-item img-3">
+                        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=600&q=80" alt="Chef cocinando">
+                    </div>
+                    <div class="decorative-shape shape-dots"></div>
+                </div>
+            </div>
+
+            <!-- Barra de Estadísticas -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="1200">+0</h3>
+                    <p>Alumnos activos</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="4">0</h3>
+                    <p>Cursos especializados</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="50">+0</h3>
+                    <p>Recetas y técnicas</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="97">0</h3>
+                    <p>% Satisfacción</p>
+                </div>
+            </div>
+
+            <!-- Vista Rápida de Cursos Populares -->
+            <div class="section-container">
+                <div class="section-header">
+                    <h2>Cursos destacados</h2>
+                    <button class="btn-text" onclick="app.navigateTo('catalog')">Ver todos &rarr;</button>
+                </div>
+                <div class="courses-grid" id="homeCoursesGrid">
+                    <!-- Inyectado por JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: MI APRENDIZAJE Y CATÁLOGO DE CURSOS -->
+        <section id="view-catalog" class="view">
+            <div class="catalog-header">
+                <h2>Explora nuestros cursos</h2>
+                <p>Encuentra el curso perfecto para llevar tus habilidades culinarias al siguiente nivel.</p>
+                <div class="catalog-filters">
+                    <div class="search-filter">
+                        <input type="text" id="catalogSearch" placeholder="Filtrar cursos..." oninput="app.filterCatalog(this.value)">
+                    </div>
+                    <div class="view-toggle">
+                        <button class="active" onclick="app.setCatalogView('grid')" id="btnGrid">Cuadrícula</button>
+                        <button onclick="app.setCatalogView('list')" id="btnList">Lista</button>
+                    </div>
+                </div>
+            </div>
+            <div class="courses-grid" id="fullCatalogGrid">
+                <!-- Inyectado por JS -->
+            </div>
+        </section>
+
+        <section id="view-learning" class="view">
+            <div class="learning-layout">
+                <div class="learning-main">
+                    <h2>Mi aprendizaje</h2>
+                    <p>Continúa donde lo dejaste y alcanza tus metas culinarias.</p>
+                    <div id="myLearningCoursesList" class="my-courses-container">
+                        <!-- Inyectado por JS -->
+                    </div>
+                </div>
+                <aside class="learning-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Últimos logros</h3>
+                        <div class="achievements-list" id="achievementsList">
+                            <!-- Inyectado por JS -->
+                            <div class="achievement-item locked">
+                                <span class="ach-icon">🔒</span>
+                                <div>
+                                    <h4>Chef de Arroz</h4>
+                                    <p>Completa el Curso 1</p>
+                                </div>
+                            </div>
+                            <div class="achievement-item locked">
+                                <span class="ach-icon">🔒</span>
+                                <div>
+                                    <h4>Maestro Napolitano</h4>
+                                    <p>Completa el Curso 2</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- VISTA: REPRODUCTOR / CURSO EN CURSO -->
+        <section id="view-course-player" class="view">
+            <div class="player-container">
+                <!-- Columna Izquierda: Acordeón de Módulos y Lecciones -->
+                <div class="player-sidebar">
+                    <div class="player-header-back">
+                        <button class="btn-outline" onclick="app.navigateTo('learning')">&larr; Volver a Mis Cursos</button>
+                        <h3 id="playerCourseTitle">Nombre del Curso</h3>
+                    </div>
+                    <div class="accordion-modules" id="accordionModules">
+                        <!-- Inyectado dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Pantalla Principal del Curso / Lección -->
+                <div class="player-main-content" id="playerMainContent">
+                    <div class="player-welcome-state">
+                        <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=800&q=80" alt="Cocina">
+                        <h2>Desplázate para comenzar</h2>
+                        <p>Selecciona un módulo o lección en el panel izquierdo para visualizar el video, contenido detallado e imágenes de alta retención.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VISTA: EXAMEN INTERACTIVO -->
+        <section id="view-exam" class="view">
+            <div class="exam-container">
+                <div class="exam-header">
+                    <button class="btn-outline" onclick="app.exitExam()">&larr; Salir del examen</button>
+                    <h2 id="examTitle">Examen de Módulo</h2>
+                    <div class="exam-progress-bar">
+                        <div id="examProgressBarFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="exam-body" id="examBody">
+                    <!-- Inyectado por JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE AUTENTICACIÓN (LOGIN / REGISTRO) -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="app.closeAuthModal()">&times;</button>
+            <h3 id="authModalTitle">Iniciar sesión</h3>
+            <p id="authModalSubtitle">Ingresa con tu usuario y contraseña para recordar tu progreso.</p>
+            <form id="authForm" onsubmit="app.handleAuthSubmit(event)">
+                <div class="form-group">
+                    <label for="authUsername">Nombre de usuario</label>
+                    <input type="text" id="authUsername" required placeholder="Ej: juan">
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Contraseña</label>
+                    <input type="password" id="authPassword" required placeholder="Ej: 12345juan">
+                </div>
+                <button type="submit" class="btn-primary btn-block" id="authSubmitBtn">Ingresar</button>
+            </form>
+            <div class="auth-switch">
+                <span id="authSwitchText">¿No tienes cuenta?</span>
+                <a href="#" onclick="app.toggleAuthMode(); return false;" id="authSwitchLink">Regístrate aquí</a>
+            </div>
+            <p class="security-note">Nota de seguridad (Demo): Este sistema utiliza almacenamiento local (localStorage) y contraseñas simuladas para demostración académica.</p>
+        </div>
+    </div>
+
+    <!-- MODAL DE CERTIFICADO -->
+    <div class="modal-overlay" id="certificateModal">
+        <div class="modal-card certificate-card">
+            <button class="modal-close" onclick="app.closeCertificateModal()">&times;</button>
+            <div class="cert-header">
+                <h2>netacocina</h2>
+                <p>CERTIFICADO DE FINALIZACIÓN</p>
+            </div>
+            <div class="cert-body">
+                <p>Se otorga el presente reconocimiento a:</p>
+                <h3 id="certUserName">Nombre del Alumno</h3>
+                <p>Por haber completado y aprobado satisfactoriamente todos los módulos y exámenes del curso:</p>
+                <h4 id="certCourseName">Nombre del Curso</h4>
+                <div class="cert-footer-info">
+                    <span>Fecha: <strong id="certDate">2026</strong></span>
+                    <span>Calificación Final: <strong id="certScore">100%</strong></span>
+                </div>
+            </div>
+            <div class="cert-actions">
+                <button class="btn-primary" onclick="window.print()">Imprimir / Descargar Certificado</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE AYUDA / CHAT -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="app.closeHelpModal()">&times;</button>
+            <h3>Asistente Culinario netacocina</h3>
+            <p>¿Tienes dudas sobre una receta, las medidas de arroz o los exámenes? Escríbenos tu consulta.</p>
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg bot">¡Hola! Soy tu chef virtual. ¿En qué puedo ayudarte hoy en netacocina?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." onkeypress="app.handleChatKey(event)">
+                <button class="btn-primary" onclick="app.sendChatMessage()">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTÓN FLOTANTE DE CHAT / AYUDA -->
+    <button class="floating-chat-btn" onclick="app.openHelpModal()" aria-label="Abrir asistente de cocina">
+        💬
+    </button>
+
+    <!-- CONTENEDOR DE NOTIFICACIONES TOAST -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Enlace al archivo de lógica JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
